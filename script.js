@@ -8,41 +8,39 @@ const textBox = document.getElementById('text-box');
 let color='';
 let toRemove = '';
 let toAdd = '';
+let isLight = true;
 
 // Dark Mode Styles
-function switchMode(navBGColor,txtBoxBGColor,tiTextContent){
-    nav.style.backgroundColor = navBGColor;
-    textBox.style.backgroundColor = txtBoxBGColor;
-    toggleIcon.children[0].textContent = tiTextContent;
+function switchMode(isLight){
+
+    color = isLight ? 'light' : 'dark';
+    toRemove = isLight ? 'fa-moon' : 'fa-sun';
+    toAdd = isLight ? 'fa-sun' : 'fa-moon';
+    document.documentElement.setAttribute('data-theme',color);
+    nav.style.backgroundColor = isLight ? 'rgb(255 255 255 /50%)' : 'rgb(0 0 0 /50%)';
+    textBox.style.backgroundColor = isLight ? 'rgb(0 0 0 /50%)' : 'rgb(255 255 255 /50%)';
+    toggleIcon.children[0].textContent = isLight ? 'Light Mode' : 'Dark Mode';
     toggleIcon.children[1].classList.replace(toRemove,toAdd);
-    imageMode();
+    image1.src = `img/undraw_proud_coder_${color}.svg`;
+    image2.src =`img/undraw_feeling_proud_${color}.svg`;
+    image3.src = `img/undraw_conceptual_idea_${color}.svg`;
+    localStorage.setItem('theme',color);
 }
 
 //Light Dark Images
 
-function imageMode(){
-    image1.src = `img/undraw_proud_coder_${color}.svg`;
-    image2.src =`img/undraw_feeling_proud_${color}.svg`;
-    image3.src = `img/undraw_conceptual_idea_${color}.svg`;
-}
+
 
 // Switch Theme Dynamically
 function switchTheme(event){
     if(event.target.checked){
-        document.documentElement.setAttribute('data-theme','dark');
-        color = 'dark';
-        toRemove='fa-sun';
-        toAdd = 'fa-moon';
-        switchMode('rgb(0 0 0 /50%)','rgb(255 255 255 /50%)','Dark Mode');
-        localStorage.setItem('theme','dark');
+         isLight = false;
+        switchMode(isLight);
+       
     }
     else{
-        document.documentElement.setAttribute('data-theme', 'light');
-        color = 'light';
-        toRemove='fa-moon';
-        toAdd = 'fa-sun';
-        switchMode('rgb(255 255 255 /50%)','rgb(0 0 0 /50%)','Light Mode');
-        localStorage.setItem('theme','light');
+        isLight = true;
+        switchMode(isLight);
     }
 }
 
@@ -57,15 +55,11 @@ if(currentTheme){
 
     if(currentTheme==='dark'){
         toggleSwitch.checked = true;
-        color = 'dark';
-        toRemove='fa-sun';
-        toAdd = 'fa-moon';
-        switchMode('rgb(0 0 0 /50%)','rgb(255 255 255 /50%)','Dark Mode');
+        isLight = false;  
     }
     else{
-        color = 'light';
-        toRemove='fa-moon';
-        toAdd = 'fa-sun';
-        switchMode('rgb(255 255 255 /50%)','rgb(0 0 0 /50%)','Light Mode');
+        toggleSwitch.checked = false;
+        isLight = true;
     }
+    switchMode(isLight);
 }
