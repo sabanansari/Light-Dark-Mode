@@ -34,7 +34,7 @@ function switchTheme(event){
         toRemove='fa-sun';
         toAdd = 'fa-moon';
         switchMode('rgb(0 0 0 /50%)','rgb(255 255 255 /50%)','Dark Mode');
-        
+        localStorage.setItem('theme','dark');
     }
     else{
         document.documentElement.setAttribute('data-theme', 'light');
@@ -42,9 +42,30 @@ function switchTheme(event){
         toRemove='fa-moon';
         toAdd = 'fa-sun';
         switchMode('rgb(255 255 255 /50%)','rgb(0 0 0 /50%)','Light Mode');
-        
+        localStorage.setItem('theme','light');
     }
 }
 
 // Event Listener
 toggleSwitch.addEventListener('change',switchTheme);
+
+// Check Local Storage For Theme
+const currentTheme = localStorage.getItem('theme');
+
+if(currentTheme){
+    document.documentElement.setAttribute('data-theme',currentTheme);
+
+    if(currentTheme==='dark'){
+        toggleSwitch.checked = true;
+        color = 'dark';
+        toRemove='fa-sun';
+        toAdd = 'fa-moon';
+        switchMode('rgb(0 0 0 /50%)','rgb(255 255 255 /50%)','Dark Mode');
+    }
+    else{
+        color = 'light';
+        toRemove='fa-moon';
+        toAdd = 'fa-sun';
+        switchMode('rgb(255 255 255 /50%)','rgb(0 0 0 /50%)','Light Mode');
+    }
+}
